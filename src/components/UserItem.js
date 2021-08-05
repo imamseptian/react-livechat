@@ -7,8 +7,6 @@ const UserItem = ({ user }) => {
   let mydate = new Date(user.lastOnline);
 
   const stringDate = () => {
-    let datenow = new Date();
-    let customDate = new Date(2021, 7, 1, 5, 23, 59);
     let month = [
       "January",
       "February",
@@ -39,20 +37,20 @@ const UserItem = ({ user }) => {
     >
       <div className=" flex gap-x-2 items-center">
         <img
-          className="avatar h-16 w-16 rounded-full border-4 border-opacity-40 object-cover"
+          className="avatar h-12 w-12 lg:h-16 lg:w-16 rounded-full border-4 border-opacity-40 object-cover"
           // src={userData.avatar}
           src={`${expressURL}uploads/${user.avatar}`}
           alt=""
         />
         <div className="card-name-user text-md">
-          <h3 className="font-semibold">{user.username}</h3>
+          <h3 className="font-semibold text-md ">{user.username}</h3>
           {/* <h3>{user.email}</h3> */}
-          <h4 className="text-sm text-gray-500 font-semibold">
+          <h4 className="text-xs lg:text-sm text-gray-500 font-semibold">
             Last online : {stringDate()}
           </h4>
         </div>
       </div>
-      <div className="card-action">
+      <div className="card-action ml-8 lg:ml-0">
         <button
           onClick={() => {
             // alert(user._id);

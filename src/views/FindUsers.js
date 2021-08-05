@@ -64,32 +64,6 @@ const FindUsers = () => {
     }
   };
 
-  const ButtonSearch = () => {
-    return (
-      <a
-        href=""
-        onClick={(e) => {
-          e.preventDefault();
-          alert("search");
-        }}
-        className="flex absolute bottom-2 right-0 bg-blue-500 rounded-lg font-bold text-white text-center px-4 py-3 transition duration-300 ease-in-out hover:bg-blue-600 mr-6"
-      >
-        Find more users
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="inline ml-2 w-6 stroke-current text-white stroke-2"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <line x1="5" y1="12" x2="19" y2="12" />
-          <polyline points="12 5 19 12 12 19" />
-        </svg>
-      </a>
-    );
-  };
-
   return (
     <div
       className="contenair bg-cover bg-fixed min-h-screen w-full flex flex-col"
@@ -98,14 +72,14 @@ const FindUsers = () => {
           'url("https://images.unsplash.com/photo-1519681393784-d120267933ba?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1124&q=100")',
       }}
     >
-      <div className="container mx-auto flex flex-col h-screen shadow-lg w-3/4">
+      <div className="container mx-auto flex flex-col h-screen shadow-lg w-full lg:w-3/4">
         {/* headaer */}
         <div className="px-5  flex justify-between items-center bg-white bg-opacity-90 border-b-2 rounded-t-xl">
           <div
             onClick={() => {
               history.push("/");
             }}
-            className="text-lg font-bold cursor-pointer "
+            className="text-sm lg:text-lg font-bold cursor-pointer "
           >
             ChatApp
           </div>
@@ -123,21 +97,24 @@ const FindUsers = () => {
               alt=""
               className="h-12 w-12 rounded-full "
             />
-            <div className="text-md font-bold">{userData.username}</div>
+            <div className="text-xs lg:text-md font-bold">
+              {userData.username}
+            </div>
           </div>
 
           <div
             onClick={() => {
               logOut();
             }}
-            className="text-lg font-bold cursor-pointer "
+            className="text-sm lg:text-lg font-bold cursor-pointer "
           >
             Logout
           </div>
         </div>
+
         {/* end header */}
         <div className="flex justify-center bg-white bg-opacity-90">
-          <div className="relative w-3/4 text-gray-600 ">
+          <div className="relative w-full lg:w-3/4  text-gray-600 ">
             <input
               type="search"
               name="serch"
@@ -152,7 +129,7 @@ const FindUsers = () => {
                 }
               }}
               value={keyword}
-              className="bg-white h-10 w-full px-5 pr-10 rounded-full text-sm focus:outline-none "
+              className="bg-white h-10 w-full px-5 pr-10 lg:rounded-full text-sm focus:outline-none "
             />
             <button
               onClick={(e) => {

@@ -54,23 +54,33 @@ const Homepage = () => {
     };
   }, []);
 
+  // const ListUsers = () => {
+  //   if (listUsers.length > 0) {
+  //     return (
+  //       <div>
+  //         {listUsers.map((user, index) => {
+  //           return <UserItem key={index} user={user} />;
+  //         })}
+  //       </div>
+  //     );
+  //   } else {
+  //     return (
+  //       <div className="text-center font-bold text-lg mt-16">
+  //         You never started a conversation before, please start chat with
+  //         someone :)
+  //       </div>
+  //     );
+  //   }
+  // };
+
   const ListUsers = () => {
-    if (listUsers.length > 0) {
-      return (
-        <div>
-          {listUsers.map((user, index) => {
-            return <UserItem key={index} user={user} />;
-          })}
-        </div>
-      );
-    } else {
-      return (
-        <div className="text-center font-bold text-lg mt-16">
-          You never started a conversation before, please start chat with
-          someone :)
-        </div>
-      );
-    }
+    return (
+      <div>
+        {listUsers.map((user, index) => {
+          return <UserItem key={index} user={user} />;
+        })}
+      </div>
+    );
   };
 
   const ButtonSearch = () => {
@@ -81,7 +91,7 @@ const Homepage = () => {
           e.preventDefault();
           history.push("/find");
         }}
-        className="flex absolute bottom-2 right-0 bg-blue-500 rounded-lg font-bold text-white text-center px-4 py-3 transition duration-300 ease-in-out hover:bg-blue-600 mr-6"
+        className="flex absolute bottom-2 right-0  bg-blue-500 rounded-lg font-bold text-white text-center px-4 py-3 transition duration-300 ease-in-out hover:bg-blue-600 mr-6"
       >
         Find more users
         <svg
@@ -89,8 +99,8 @@ const Homepage = () => {
           className="inline ml-2 w-6 stroke-current text-white stroke-2"
           viewBox="0 0 24 24"
           fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
           <line x1="5" y1="12" x2="19" y2="12" />
           <polyline points="12 5 19 12 12 19" />
@@ -107,7 +117,7 @@ const Homepage = () => {
           'url("https://images.unsplash.com/photo-1519681393784-d120267933ba?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1124&q=100")',
       }}
     >
-      <div className="container mx-auto flex flex-col h-screen shadow-lg w-3/4 relative">
+      <div className="container mx-auto flex flex-col h-screen shadow-lg w-full lg:w-3/4 relative">
         <ButtonSearch />
         {/* headaer */}
         <div className="px-5  flex justify-between items-center bg-white bg-opacity-90 border-b-2 rounded-t-xl">
@@ -115,7 +125,7 @@ const Homepage = () => {
             onClick={() => {
               history.push("/");
             }}
-            className="text-lg font-bold cursor-pointer "
+            className="text-sm lg:text-lg font-bold cursor-pointer "
           >
             ChatApp
           </div>
@@ -133,14 +143,16 @@ const Homepage = () => {
               alt=""
               className="h-12 w-12 rounded-full "
             />
-            <div className="text-md font-bold">{userData.username}</div>
+            <div className="text-xs lg:text-md font-bold">
+              {userData.username}
+            </div>
           </div>
 
           <div
             onClick={() => {
               logOut();
             }}
-            className="text-lg font-bold cursor-pointer "
+            className="text-sm lg:text-lg font-bold cursor-pointer "
           >
             Logout
           </div>
@@ -155,7 +167,16 @@ const Homepage = () => {
             <div className="flex flex-col mt-5">
               {/* <ListUsers /> */}
               {/* <UserItem user={listUsers[0]} /> */}
-              <ListUsers />
+              {/* <ListUsers /> */}
+
+              {listUsers.length > 0 ? (
+                <ListUsers />
+              ) : (
+                <div className="text-center font-bold text-lg mt-16">
+                  You never started a conversation before, please start chat
+                  with someone :)
+                </div>
+              )}
             </div>
           </div>
         </div>

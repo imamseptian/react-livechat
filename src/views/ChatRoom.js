@@ -27,22 +27,24 @@ const ChatRoom = () => {
   });
 
   const sendMessage = () => {
-    socket.current.emit("sendMessage", {
-      sender: userData._id,
-      receiver: identifier,
-      content: contentMsg,
-      createdAt: Date.now(),
-    });
-    setChatLog([
-      ...chatLog,
-      {
+    if (contentMsg !== "") {
+      socket.current.emit("sendMessage", {
         sender: userData._id,
         receiver: identifier,
         content: contentMsg,
         createdAt: Date.now(),
-      },
-    ]);
-    setcontentMsg("");
+      });
+      setChatLog([
+        ...chatLog,
+        {
+          sender: userData._id,
+          receiver: identifier,
+          content: contentMsg,
+          createdAt: Date.now(),
+        },
+      ]);
+      setcontentMsg("");
+    }
   };
 
   const getChat = () => {
@@ -132,11 +134,11 @@ const ChatRoom = () => {
               ? `${expressURL}uploads/default.png`
               : `${expressURL}uploads/${friendData.avatar}`
           }
-          className="object-cover h-8 w-8 rounded-full"
+          className="object-cover h-6 w-6 lg:h-8 lg:w-8 rounded-full"
           alt=""
         />
         <div>
-          <div className="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white">
+          <div className="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white text-xs lg:text-sm">
             {item.content}
           </div>
           <div className="text-black font-semibold pl-3 text-xs">
@@ -153,7 +155,7 @@ const ChatRoom = () => {
     return (
       <div className="flex justify-end mb-4">
         <div>
-          <div className="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
+          <div className="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white text-xs lg:text-sm">
             {item.content}
           </div>
           <div className="text-black font-semibold pr-3 text-right text-xs">
@@ -167,7 +169,7 @@ const ChatRoom = () => {
               ? `${expressURL}uploads/default.png`
               : `${expressURL}uploads/${userData.avatar}`
           }
-          className="object-cover h-8 w-8 rounded-full"
+          className="object-cover h-6 w-6 lg:h-8 lg:w-8 rounded-full"
           alt=""
         />
       </div>
@@ -208,6 +210,31 @@ const ChatRoom = () => {
     );
   };
 
+  const SendButton = () => {
+    return (
+      <a
+        href=""
+        onClick={(e) => {
+          e.preventDefault();
+          sendMessage();
+        }}
+        className=" flex bg-blue-500 rounded-lg font-bold text-white text-center px-4 transition duration-300 ease-in-out hover:bg-blue-600 ml-3"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="inline w-4 stroke-current text-white stroke-2"
+          viewBox="0 0 24 24"
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
+        </svg>
+      </a>
+    );
+  };
+
   return (
     <div
       className="contenair bg-cover bg-fixed min-h-screen w-full flex flex-col"
@@ -216,16 +243,14 @@ const ChatRoom = () => {
           'url("https://images.unsplash.com/photo-1519681393784-d120267933ba?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1124&q=100")',
       }}
     >
-      <div className="container mx-auto flex flex-col h-screen shadow-lg w-3/4">
+      <div className="container mx-auto flex flex-col h-screen shadow-lg w-full lg:w-3/4">
         {/* headaer */}
-        <div className="px-5  flex justify-between items-center bg-white border-b-2 rounded-t-xl">
+        <div className="px-5  flex justify-between items-center bg-white bg-opacity-90 border-b-2 rounded-t-xl">
           <div
             onClick={() => {
               history.push("/");
-              // socket.current.close();
-              // scrollToBottom();
             }}
-            className="text-lg font-bold cursor-pointer "
+            className="text-sm lg:text-lg font-bold cursor-pointer "
           >
             ChatApp
           </div>
@@ -236,21 +261,23 @@ const ChatRoom = () => {
             </div> */}
             <img
               src={
-                friendData.avatar === ""
+                userData.avatar === ""
                   ? `${expressURL}uploads/default.png`
                   : `${expressURL}uploads/${friendData.avatar}`
               }
               alt=""
               className="h-12 w-12 rounded-full "
             />
-            <div className="text-md font-bold">{friendData.username}</div>
+            <div className="text-xs lg:text-md font-bold">
+              {friendData.username}
+            </div>
           </div>
 
           <div
             onClick={() => {
               logOut();
             }}
-            className="text-lg font-bold cursor-pointer "
+            className="text-sm lg:text-lg font-bold cursor-pointer "
           >
             Logout
           </div>
@@ -259,7 +286,7 @@ const ChatRoom = () => {
 
         {/* CHAT LIST  */}
 
-        <div className="overflow-y-scroll flex-1 flex flex-row justify-between bg-white ">
+        <div className="overflow-y-scroll flex-1 flex flex-row justify-between bg-white bg-opacity-90">
           <div className="w-full px-5 flex flex-col justify-between">
             <div className="flex flex-col mt-5">
               <MyChatLog />
@@ -275,10 +302,10 @@ const ChatRoom = () => {
 
         {/* INPUT MESSAGES  */}
         {/* <div className="text-white text-xl">{chatLog.length}</div> */}
-        <div className="bg-white rounded-b-xl px-5">
+        <div className="bg-white bg-opacity-90 rounded-b-xl px-5 flex">
           {/* <div>{JSON.stringify(userData)}</div> */}
-          <div className="pb-5">
-            <input
+          <div className=" flex-1">
+            <textarea
               className="w-full bg-gray-300 py-5 px-3 rounded-xl"
               type="text"
               placeholder="type your message here..."
@@ -293,6 +320,7 @@ const ChatRoom = () => {
               }}
             />
           </div>
+          <SendButton />
         </div>
       </div>
     </div>

@@ -125,10 +125,10 @@ const Register = () => {
       <div className="absolute bg-black opacity-60 inset-0 z-0" />
       <div className="max-w-md w-full space-y-8 p-10 bg-white rounded-xl z-10">
         <div className="text-center">
-          <h2 className="mt-3 text-3xl font-bold text-gray-900">
+          <h2 className="mt-3 text=xl lg:text=3xl font-bold text-gray-900">
             Simple Chat App
           </h2>
-          <p className="mt-2 text-sm text-gray-600">
+          <p className="mt-2 text-gray-600 text-sm">
             Fill in the form below to register
           </p>
         </div>

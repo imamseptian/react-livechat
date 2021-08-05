@@ -11,8 +11,20 @@ const Login = () => {
     password: "",
   });
 
+  const [errorMsg, seterrorMsg] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [isLoading, setisLoading] = useState(false);
+
   const submitLogin = () => {
+    seterrorMsg({
+      email: "",
+      password: "",
+    });
     // alert("asu");
+    setisLoading(true);
     axios
       .post(`${expressURL}user/login`, userData)
       .then((res) => {
@@ -26,10 +38,36 @@ const Login = () => {
         );
 
         history.push("/");
+        setisLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response.status);
+        console.log(err.response.data);
+        if (err.response.status === 400) {
+          if (err.response.data.errorEmail) {
+            seterrorMsg({ password: "", email: err.response.data.errorEmail });
+          }
+          if (err.response.data.errorPassword) {
+            seterrorMsg({
+              email: "",
+              password: err.response.data.errorPassword,
+            });
+          }
+        }
+        setisLoading(false);
       });
+  };
+
+  const TextAlert = (props) => {
+    return (
+      <div>
+        {props.text ? (
+          <div className="text-red-500 text-xs font-bold mt-1">
+            {/* *Username must be 8 characters or longer */}*{props.text}
+          </div>
+        ) : null}
+      </div>
+    );
   };
 
   return (
@@ -44,10 +82,10 @@ const Login = () => {
       <div className="absolute bg-black opacity-60 inset-0 z-0" />
       <div className="max-w-md w-full space-y-8 p-10 bg-white rounded-xl z-10">
         <div className="text-center">
-          <h2 className="mt-3 text-3xl font-bold text-gray-900">
+          <h2 className="mt-3  font-bold text-gray-900 text-xl lg:text-3xl">
             Simple Chat App
           </h2>
-          <p className="mt-2 text-sm text-gray-600">
+          <p className="mt-2 lg:text-md sm:text-sm text-gray-600">
             Please sign in to your account
           </p>
         </div>
@@ -74,6 +112,7 @@ const Login = () => {
                 setuserData({ ...userData, email: e.target.value });
               }}
             />
+            <TextAlert text={errorMsg.email} />
           </div>
           <div className="mt-8">
             <label className="text-sm font-bold text-gray-700 tracking-wide">
@@ -88,13 +127,19 @@ const Login = () => {
                 setuserData({ ...userData, password: e.target.value });
               }}
             />
+            <TextAlert text={errorMsg.password} />
           </div>
 
           <div>
             <button
               type="submit"
-              className="w-full flex justify-center bg-indigo-500 text-gray-100 p-4  rounded-full tracking-wide
-                          font-semibold  focus:outline-none focus:shadow-outline hover:bg-indigo-600 shadow-lg cursor-pointer transition ease-in duration-300"
+              disabled={isLoading}
+              className={`w-full flex justify-center ${
+                isLoading ? "bg-gray-400" : "bg-indigo-500"
+              } text-gray-100 p-4  rounded-full tracking-wide
+              font-semibold  focus:outline-none focus:shadow-outline ${
+                !isLoading ? "hover:bg-indigo-600" : null
+              } shadow-lg cursor-pointer transition ease-in duration-300`}
             >
               Login
             </button>
